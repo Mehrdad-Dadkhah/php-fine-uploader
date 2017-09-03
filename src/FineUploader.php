@@ -80,6 +80,7 @@ class FineUploader
                 ];
             }
 
+            unset($result['chunksSubDirectryPath']);
             // return $result;
             echo json_encode($result);
 
