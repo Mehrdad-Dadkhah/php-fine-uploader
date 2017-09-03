@@ -69,7 +69,7 @@ class FineUploader
             $result['success'] = $result['status'];
             $result['status']  = ($result['status'] ? 0 : 1);
 
-            if ($result['status'] && $this->isDublicate($result['uuid'])) {
+            if ($result['success'] && $this->checkDuplicate($result['uuid'])) {
                 unlink($uploadDirectory . '/' . $result['file']);
 
                 $result = [
@@ -181,7 +181,7 @@ class FineUploader
         return $this;
     }
 
-    private function checkDuplicate(strign $uuid): bool
+    private function checkDuplicate(string $uuid): bool
     {
         $method = $this->checkDublicateFileMethod;
         return $method($uuid);
