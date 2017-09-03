@@ -70,7 +70,7 @@ class FineUploader
             $result['status']  = ($result['status'] ? 0 : 1);
 
             if ($result['success'] && $this->checkDuplicate($result['uuid'])) {
-                unlink($uploadDirectory . '/' . $result['file']);
+                unlink($uploadDirectory . '/' . $result['uplodedName']);
 
                 $result = [
                     'error'    => 5,
