@@ -1,0 +1,23 @@
+{
+    "name": "mehrdad-dadkhah/php-fine-uploader",
+    "description": "upload chunks file. use to upload big files",
+    "keywords": ["uploader","file", "chunks", "big_file", "fine_uploader", "video", "tus_uploader", "flowjs_uploader", "server_uploader"],
+    "homepage": "https://github.com/Mehrdad-Dadkhah/php-fine-uploader",
+    "type": "library",
+    "require": {
+        "php": ">=5.5",
+	    "mehrdad-dadkhah/chunks-uploader": "^1.1"
+    },
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Mehrdad Dadkhah",
+            "email": "mehrdad@dadkhah.me"
+        }
+    ],
+    "autoload": {
+	    "psr-4": {
+		    "MehrdadDadkhah\\Video\\": "src/"
+	    }
+    }
+}
