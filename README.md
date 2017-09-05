@@ -3,6 +3,7 @@
 
 [![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat-square)](LICENSE)
 [![Packagist Version](https://img.shields.io/packagist/v/Mehrdad-Dadkhah/php-fine-uploader.svg?style=flat-square)](https://packagist.org/packages/mehrdad-dadkhah/php-fine-uploader)
+[![Packagist](https://img.shields.io/packagist/dt/Mehrdad-Dadkhah/php-fine-uploader.svg?style=flat-square&maxAge=259200)](https://packagist.org/packages/Mehrdad-Dadkhah/php-fine-uploader)
 
 
 php lib for use [fine-uploader js](https://fineuploader.com/) as client and upload big files with separate to chunks files.

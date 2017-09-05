@@ -63,53 +63,73 @@ class FineUploader
         // Assumes you have a chunking.success.endpoint set to point here with a query parameter of "done".
         // For example: /myserver/handlers/endpoint.php?done
         if (isset($_GET["done"])) {
-            $result = $this->uploader->setUploadDirectory($uploadDirectory)
-                ->finishUpload();
-
-            $result['success'] = $result['status'];
-            $result['status']  = ($result['status'] ? 0 : 1);
-
-            if ($result['success'] && $this->checkDuplicate($result['uuid'])) {
-                unlink($uploadDirectory . '/' . $result['uplodedName']);
-
-                $result = [
-                    'error'    => 5,
-                    "uuid"     => $result['uuid'],
-                    'status'   => -5,
-                    'messages' => 'duplicated',
-                ];
-            }
-
-            unset($result['chunksSubDirectryPath']);
-            // return $result;
-            echo json_encode($result);
-
+            $this->uploadDone($uploadDirectory);
         }
         // Handles upload requests
         else {
-
-            // Call handleUpload() with the name of the folder, relative to PHP's getcwd()
-            $result = $this->uploader->uploadChunk($_REQUEST['qqpartindex']);
-
-            $result['success'] = $result['status'];
-
-            // To return a name used for uploaded file you can use the following line.
-
-            // iframe uploads require the content-type to be 'text/html' and
-            // return some JSON along with self-executing javascript (iframe.ss.response)
-            // that will parse the JSON and pass it along to Fine Uploader via
-            // window.postMessage
-            if ($this->checkIframe()) {
-                header("Content-Type: text/html");
-
-                echo json_encode($result) . "<script src='http://jabeh.com/assets/js/iframe.xss.response.js'></script>";
-
-            } else {
-                echo json_encode($result);
-                // return $result;
-            }
-
+            $this->uploadChunk($uploadDirectory);
         }
+    }
+
+    private function uploadDone(string $uploadDirectory)
+    {
+        $result = $this->uploader->setUploadDirectory($uploadDirectory)
+            ->finishUpload();
+
+        $result['success'] = $result['status'];
+        $result['status']  = ($result['status'] ? 0 : 1);
+
+        if ($result['success'] && $this->checkDuplicate($result['uuid'])) {
+            unlink($uploadDirectory . '/' . $result['uplodedName']);
+
+            $result = [
+                'error'    => 5,
+                "uuid"     => $result['uuid'],
+                'status'   => -5,
+                'messages' => 'duplicated',
+            ];
+        }
+
+        unset($result['chunksSubDirectryPath']);
+        // return $result;
+        echo json_encode($result);
+        exit;
+    }
+
+    private function uploadChunk(string $uploadDirectory)
+    {
+        $totalParts = isset($_REQUEST['qqtotalparts']) ? (int) $_REQUEST['qqtotalparts'] : 1;
+
+        $partNumber = 0;
+        if ($totalParts != 1) {
+            $partNumber = $_REQUEST['qqpartindex'];
+        }
+        // Call handleUpload() with the name of the folder, relative to PHP's getcwd()
+        $result = $this->uploader->uploadChunk($partNumber);
+
+        if ($result['status'] && $totalParts == 1) {
+            $this->uploadDone($uploadDirectory);
+        }
+
+        $result['success'] = $result['status'];
+
+        // To return a name used for uploaded file you can use the following line.
+
+        // iframe uploads require the content-type to be 'text/html' and
+        // return some JSON along with self-executing javascript (iframe.ss.response)
+        // that will parse the JSON and pass it along to Fine Uploader via
+        // window.postMessage
+        if ($this->checkIframe()) {
+            header("Content-Type: text/html");
+
+            echo json_encode($result) . "<script src='http://jabeh.com/assets/js/iframe.xss.response.js'></script>";
+
+        } else {
+            echo json_encode($result);
+            // return $result;
+        }
+
+        exit;
     }
 
     private function checkIframe(): bool
