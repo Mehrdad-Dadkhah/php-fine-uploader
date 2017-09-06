@@ -6,7 +6,7 @@
     "type": "library",
     "require": {
         "php": ">=7.0",
-	    "mehrdad-dadkhah/chunks-uploader": "^1.1"
+	    "mehrdad-dadkhah/chunks-uploader": "^1.2"
     },
     "license": "GPLv3",
     "authors": [

@@ -206,4 +206,26 @@ class FineUploader
         $method = $this->checkDublicateFileMethod;
         return $method($uuid);
     }
+
+    public function getChunksSubDirectryPath(): string
+    {
+        return $this->uploader->getChunksSubDirectryPath();
+    }
+
+    public function customResponse(bool $success, string $uuid, string $error = '', array $customData = [])
+    {
+        header("Content-Type: text/plain");
+
+        $response = [
+            'success' => $success,
+            'status'  => (int) !$success,
+            'uuid'    => $uuid,
+            'error'   => $error,
+        ];
+
+        $response = array_merge($response, $customData);
+
+        echo json_encode($response);
+        exit;
+    }
 }
