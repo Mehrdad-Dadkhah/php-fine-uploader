@@ -43,6 +43,17 @@ class FineUploader
         return $this;
     }
 
+    /*
+     * optional function  
+     * If want to generate file in a temp directory and then move to main upload directory you can use it.
+     */
+    public function setTempDirectory(strign $path)
+    {
+        $this->uploader->setTempDirectory($path);
+
+        return $this;
+    }
+
     public function checkAndGenerateOutputDirectory()
     {
         $this->uploader->checkAndGenerateOutputDirectory();
