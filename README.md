@@ -54,6 +54,19 @@ If want to generate file in a temp directory and then move to main upload direct
 ```PHP
 $uploadHandeler->setTempDirectory('path-to-temp');
 ```
+## Max upload size
+
+ChunksUploader calculate uploaded file size (sum of chunks) and compare with upload_max_filesize ini config. If want to stop bigger file at first request for better ux can pass total main file size in bytes:
+
+```PHP
+$uploadHandeler->setVideoTotalSize(213456);
+```
+
+And can overwrite upload_max_filesize by:
+
+```PHP
+$uploadHandeler->setMaxUploadSize(213456);
+```
 
 ## License
 

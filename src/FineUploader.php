@@ -9,7 +9,7 @@ class FineUploader
     private $checkDuplicate = false;
     private $checkDublicateFileMethod;
     private $domain;
-
+    
     public function __construct()
     {
         $this->uploader       = new ChunksUploader();
@@ -17,7 +17,7 @@ class FineUploader
         $this->requestHeaders = $this->parseRequestHeaders();
     }
 
-    public function setConfigs(int $sizeLimit, string $inputName, string $chunksFolder)
+    public function setConfigs(string $inputName, string $chunksFolder)
     {
         $this->uploader->setMainFileName($_REQUEST['qqfilename'])
             ->setFileTotalSize($_REQUEST['qqtotalfilesize'])
@@ -43,6 +43,20 @@ class FineUploader
         return $this;
     }
 
+    public function setMaxUploadSize(int $size)
+    {
+        $this->uploader->setMaxUploadSize($size);
+
+        return $this;
+    }
+
+    public function setVideoTotalSize(int $size)
+    {
+        $this->uploader->setVideoTotalSize($size);
+
+        return $this;
+    }
+    
     /*
      * optional function  
      * If want to generate file in a temp directory and then move to main upload directory you can use it.
